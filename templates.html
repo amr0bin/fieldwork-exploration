@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldwork — Post Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1916;
+  --ink-2: #4a4944;
+  --ink-3: #8a8880;
+  --surface: #f7f5f0;
+  --surface-2: #edeae2;
+  --surface-3: #e2dfd5;
+  --white: #ffffff;
+  --pillar-a: #3C3489;
+  --pillar-a-light: #EEEDFE;
+  --pillar-dj: #085041;
+  --pillar-dj-light: #E1F5EE;
+  --pillar-el: #712B13;
+  --pillar-el-light: #FAECE7;
+  --why: #3C3489;
+  --why-light: #EEEDFE;
+  --try: #085041;
+  --try-light: #E1F5EE;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; color: var(--ink); background: var(--surface); }
+
+.skip-link { position: absolute; top: -100px; left: 1rem; background: var(--pillar-a); color: #fff; padding: 0.5rem 1rem; border-radius: var(--radius); text-decoration: none; font-size: 14px; z-index: 9999; }
+.skip-link:focus { top: 1rem; }
+
+header { background: var(--white); border-bottom: 1px solid var(--surface-3); padding: 0 2rem; position: sticky; top: 0; z-index: 100; }
+.header-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 2rem; }
+.wordmark { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); text-decoration: none; }
+.wordmark em { font-style: italic; color: var(--pillar-a); }
+.back-link { font-size: 13px; color: var(--ink-2); text-decoration: none; }
+.back-link:hover { color: var(--ink); }
+
+.hero { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem 2.5rem; }
+.hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; }
+.hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+.hero h1 em { font-style: italic; color: var(--pillar-a); }
+.hero-lead { font-size: 16px; font-weight: 300; color: var(--ink-2); max-width: 580px; line-height: 1.7; margin-bottom: 2rem; }
+
+.tab-nav { max-width: 1000px; margin: 0 auto; padding: 0 2rem 1.5rem; display: flex; gap: 8px; }
+.tab-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 8px 20px; border-radius: 999px; border: 1.5px solid var(--surface-3); background: var(--white); color: var(--ink-2); cursor: pointer; transition: all 0.15s; }
+.tab-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+.tab-btn.active.p1 { background: var(--why); color: var(--white); border-color: var(--why); }
+.tab-btn.active.p2 { background: var(--try); color: var(--white); border-color: var(--try); }
+.tab-btn:focus-visible { outline: 2px solid var(--pillar-a); outline-offset: 2px; }
+
+.main { max-width: 1000px; margin: 0 auto; padding: 0 2rem 5rem; }
+
+.template-panel { display: none; }
+.template-panel.active { display: block; }
+
+.how-it-works { background: var(--white); border: 1px solid var(--surface-3); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 2rem; }
+.how-title { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 1rem; }
+.how-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.how-grid.p2 { grid-template-columns: repeat(4, 1fr); }
+.how-item { padding: 10px 12px; border-radius: var(--radius); }
+.how-item.why-bg { background: var(--why-light); }
+.how-item.try-bg { background: var(--try-light); }
+.how-item.neutral { background: var(--surface-2); }
+.how-num { font-size: 11px; font-weight: 500; color: var(--ink-3); margin-bottom: 2px; }
+.how-label { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.how-desc { font-size: 11px; color: var(--ink-2); line-height: 1.4; }
+
+.section-block { margin-bottom: 20px; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-3); }
+.section-header { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--surface-3); }
+.section-tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px; }
+.tag-why { background: var(--why-light); color: var(--why); }
+.tag-try { background: var(--try-light); color: var(--try); }
+.tag-neutral { background: var(--surface-2); color: var(--ink-3); }
+.section-name { font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--ink); }
+.section-purpose { font-size: 13px; color: var(--ink-2); margin-left: auto; font-style: italic; max-width: 300px; text-align: right; }
+
+.section-body { background: var(--white); padding: 1.5rem; }
+
+.field { margin-bottom: 1.25rem; }
+.field:last-child { margin-bottom: 0; }
+.field-label { font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.field-content { font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+.field-content em { color: var(--ink); font-style: normal; font-weight: 500; }
+.field-content.instruction { font-style: italic; color: var(--ink-3); font-size: 13px; border-left: 3px solid var(--surface-3); padding-left: 12px; }
+
+.subsection { background: var(--surface-2); border-radius: var(--radius); padding: 1rem 1.15rem; margin-top: 10px; }
+.subsection-label { font-size: 11px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.subsection-content { font-size: 13px; color: var(--ink-2); line-height: 1.6; font-style: italic; }
+
+.see-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.see-card { background: var(--surface-2); border-radius: var(--radius); padding: 1rem; }
+.see-card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.see-card-content { font-size: 13px; color: var(--ink-2); line-height: 1.55; font-style: italic; }
+
+.steps-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.step-item { display: flex; gap: 10px; align-items: flex-start; background: var(--surface-2); border-radius: var(--radius); padding: 10px 12px; }
+.step-num { font-size: 11px; font-weight: 500; color: var(--white); background: var(--try); border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; font-style: italic; }
+
+.meta-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.meta-pill { font-size: 12px; padding: 4px 12px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--surface-3); }
+
+.video-block { background: var(--surface-2); border-radius: var(--radius); padding: 1rem 1.15rem; margin-top: 10px; display: flex; align-items: center; gap: 12px; }
+.video-icon { width: 36px; height: 36px; border-radius: 50%; background: #FF0000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.video-icon svg { width: 14px; height: 14px; fill: white; }
+.video-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; font-style: italic; }
+
+.refs-block { background: var(--surface); border: 1px solid var(--surface-3); border-radius: var(--radius); padding: 1rem 1.15rem; margin-top: 10px; }
+.refs-tier { margin-bottom: 10px; }
+.refs-tier:last-child { margin-bottom: 0; }
+.refs-tier-label { font-size: 11px; font-weight: 500; color: var(--ink-3); margin-bottom: 5px; letter-spacing: 0.04em; text-transform: uppercase; }
+.refs-item { font-size: 12px; color: var(--ink-2); line-height: 1.55; font-style: italic; padding: 4px 0; border-top: 1px solid var(--surface-3); }
+.refs-item:first-of-type { border-top: none; }
+
+.nav-block { background: var(--white); border: 1px solid var(--surface-3); border-radius: var(--radius); padding: 1rem 1.25rem; margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.nav-item-label { font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.nav-item-text { font-size: 13px; color: var(--ink-2); font-style: italic; }
+
+.length-note { display: inline-block; font-size: 11px; color: var(--ink-3); background: var(--surface-2); padding: 3px 8px; border-radius: 4px; margin-top: 6px; }
+
+footer { border-top: 1px solid var(--surface-3); padding: 2rem; text-align: center; margin-top: 2rem; }
+.footer-inner { max-width: 1000px; margin: 0 auto; font-size: 13px; color: var(--ink-3); }
+.footer-inner a { color: var(--ink-2); }
+
+@media (max-width: 680px) {
+  .how-grid, .how-grid.p2 { grid-template-columns: 1fr 1fr; }
+  .see-grid { grid-template-columns: 1fr; }
+  .nav-block { grid-template-columns: 1fr; }
+  header { padding: 0 1rem; }
+  .hero, .main, .tab-nav { padding-left: 1rem; padding-right: 1rem; }
+  .section-purpose { display: none; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <div class="header-inner">
+    <a class="wordmark" href="index.html"><em>Fieldwork</em> — Accessible Learning Labs</a>
+    <a class="back-link" href="index.html">&#8592; Back to overview</a>
+  </div>
+</header>
+
+<div class="hero">
+  <p class="hero-eyebrow">Reference document</p>
+  <h1>Post <em>templates</em></h1>
+  <p class="hero-lead">The repeating structure for every Fieldwork post — Part 1 and Part 2 — with guidance on what each section does, how long it should be, and how the method reflects the values.</p>
+</div>
+
+<div class="tab-nav" role="tablist" aria-label="Template type">
+  <button class="tab-btn active p1" role="tab" aria-selected="true" aria-controls="part1" onclick="showTab('part1', this, 'p1')">Part 1 — Why, See</button>
+  <button class="tab-btn p2" role="tab" aria-selected="false" aria-controls="part2" onclick="showTab('part2', this, 'p2')">Part 2 — Try, Share, Reflect</button>
+</div>
+
+<main class="main" id="main">
+
+<!-- ══════════════════════ PART 1 ══════════════════════ -->
+<div id="part1" class="template-panel active" role="tabpanel">
+
+  <div class="how-it-works">
+    <div class="how-title">How Part 1 works — five elements, one arc</div>
+    <div class="how-grid">
+      <div class="how-item why-bg"><div class="how-num">1</div><div class="how-label">Header</div><div class="how-desc">Publication context, week number, pillar tag</div></div>
+      <div class="how-item why-bg"><div class="how-num">2</div><div class="how-label">Heading</div><div class="how-desc">The week's provocation — from the structural recipe</div></div>
+      <div class="how-item why-bg"><div class="how-num">3</div><div class="how-label">Why</div><div class="how-desc">The tension, the reframe, the key sentence</div></div>
+      <div class="how-item why-bg"><div class="how-num">4</div><div class="how-label">See</div><div class="how-desc">Real-world case: context → what they did → what changed → what it reveals</div></div>
+      <div class="how-item neutral"><div class="how-num">5</div><div class="how-label">Close</div><div class="how-desc">Open question + preview of Part 2 + references</div></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-why">Header</span>
+      <span class="section-name">Publication context</span>
+      <span class="section-purpose">Orients the reader before the post begins</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">Format</div>
+        <div class="field-content">
+          <em>Fieldwork</em> · Week [X], Part 1<br>
+          [Pillar tag: Accessibility / Disability Justice / Emergent Learning]
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Note</div>
+        <div class="field-content instruction">The pillar tag names which of the three pillars this week's post primarily draws from. Some weeks will draw from more than one — name the dominant one. This tag helps readers who are following a particular thread navigate the archive.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADING -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-why">Heading</span>
+      <span class="section-name">The provocation</span>
+      <span class="section-purpose">An argument starter, not a topic label</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">Source</div>
+        <div class="field-content">Drawn directly from the structural recipe for this week. It is a statement or question that could be wrong, or that challenges an assumption the reader is likely to hold.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Opening line</div>
+        <div class="field-content instruction">One sentence immediately below the heading that names what is at stake for the reader personally. Not a summary of the post — a reason to keep reading. It should speak directly to someone already doing this work.</div>
+      </div>
+      <div class="length-note">Heading: from the structural recipe · Opening line: 1 sentence</div>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-why">Why</span>
+      <span class="section-name">The conceptual foundation</span>
+      <span class="section-purpose">The tension → the reframe → the key sentence</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">What this section does</div>
+        <div class="field-content">Opens with the tension — what the field currently does or assumes, and why that is insufficient. Introduces the concept that reframes it. Closes with the week's key sentence from the structural recipe, stated or closely paraphrased. The reader should feel taken seriously, not lectured at.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Three moves</div>
+        <div class="subsection">
+          <div class="subsection-label">Move 1 — The tension</div>
+          <div class="subsection-content">Name what the system currently does or requires (the accessibility / infrastructure dimension). Be specific — a reader should recognise their own context in it.</div>
+        </div>
+        <div class="subsection" style="margin-top:8px">
+          <div class="subsection-label">Move 2 — The reframe</div>
+          <div class="subsection-content">Introduce the concept that challenges that assumption (the disability justice / ethics dimension). This is where the week's intellectual work happens.</div>
+        </div>
+        <div class="subsection" style="margin-top:8px">
+          <div class="subsection-label">Move 3 — The key sentence</div>
+          <div class="subsection-content">Close with the load-bearing claim from the structural recipe (the emergent learning / method dimension). This is the sentence the reader will carry out of the post.</div>
+        </div>
+      </div>
+      <div class="length-note">250–350 words · 2–3 paragraphs</div>
+    </div>
+  </div>
+
+  <!-- SEE -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-why">See</span>
+      <span class="section-name">The real-world case</span>
+      <span class="section-purpose">Context → what they did → what changed → what it reveals</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">Introduction</div>
+        <div class="field-content instruction">One sentence that names the case — where, who, what conditions. This orients the reader before the four-part structure begins.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Four-part structure</div>
+        <div class="see-grid">
+          <div class="see-card">
+            <div class="see-card-label">Context</div>
+            <div class="see-card-content">Name the environment, the population, the specific challenge or gap. Be specific enough that readers can locate themselves in relation to it — either "this is my context" or "this is adjacent to my context." 2–4 sentences.</div>
+          </div>
+          <div class="see-card">
+            <div class="see-card-label">What they did</div>
+            <div class="see-card-content">Describe the design decision, intervention, or practice. Focus on the choices made, not just the outcome. What did they prioritise? What did they refuse to do? 2–4 sentences.</div>
+          </div>
+          <div class="see-card">
+            <div class="see-card-label">What changed</div>
+            <div class="see-card-content">The observable outcome — what was measurably or visibly different. Be honest about limits: what changed and what did not. 2–4 sentences.</div>
+          </div>
+          <div class="see-card">
+            <div class="see-card-label">What it reveals</div>
+            <div class="see-card-content">Connect the case back to the week's concept. What does this example make visible about the hypothesis that a general argument alone could not? This is the sentence a reader will remember. 2–3 sentences.</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Case selection principles</div>
+        <div class="field-content instruction">Vary geography and sector across the 24 weeks — not all higher education, not all North American, not all the same scale. The range of cases is itself a demonstration of the emergent, intersectional thesis. Adapt the four-part structure as the case demands — some cases will need more on context, others on what changed.</div>
+      </div>
+      <div class="length-note">300–400 words total for the See section</div>
+    </div>
+  </div>
+
+  <!-- CLOSE -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-neutral">Close</span>
+      <span class="section-name">Open question + navigation + references</span>
+      <span class="section-purpose">Points forward, not backward</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">A question to carry into next week</div>
+        <div class="field-content instruction">One genuinely open question — not rhetorical, not answerable by the post just written. It points toward the field's edge: what is not yet known, what practitioners are still working out, what the reader might be positioned to contribute to. This is the bridge to Part 2.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Navigation</div>
+        <div class="nav-block">
+          <div>
+            <div class="nav-item-label">Next post</div>
+            <div class="nav-item-text">Part 2, Week [X] — one sentence preview of what readers will be invited to do</div>
+          </div>
+          <div>
+            <div class="nav-item-label">Structural reference</div>
+            <div class="nav-item-text">Link to structure.html for readers who want to see the full arc</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">References & further reading</div>
+        <div class="refs-block">
+          <div class="refs-tier">
+            <div class="refs-tier-label">Sources that informed this post</div>
+            <div class="refs-item">Author, <em>Title</em>, Year — one sentence on what this source contributes and why it is worth reading.</div>
+            <div class="refs-item">Author, <em>Title</em>, Year — one sentence on what this source contributes and why it is worth reading.</div>
+          </div>
+          <div class="refs-tier">
+            <div class="refs-tier-label">Worth going further with</div>
+            <div class="refs-item">Author, <em>Title</em>, Year — one sentence on the angle this source takes and who it is most useful for.</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Formatting note</div>
+        <div class="field-content instruction">References sit after the closing navigation line. Not inline, not footnoted — Substack's format does not support footnotes elegantly and inline citations interrupt the reading experience. Readers who want sources scroll down; readers who do not, do not.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════ PART 2 ══════════════════════ -->
+<div id="part2" class="template-panel" role="tabpanel">
+
+  <div class="how-it-works">
+    <div class="how-title">How Part 2 works — four elements, one shift</div>
+    <div class="how-grid p2">
+      <div class="how-item try-bg"><div class="how-num">1</div><div class="how-label">Try</div><div class="how-desc">A practical activity + video — concept moving into action</div></div>
+      <div class="how-item try-bg"><div class="how-num">2</div><div class="how-label">Share</div><div class="how-desc">A specific prompt for conversation with colleagues or community</div></div>
+      <div class="how-item try-bg"><div class="how-num">3</div><div class="how-label">Reflect</div><div class="how-desc">A genuinely open question pointing toward the field's future</div></div>
+      <div class="how-item neutral"><div class="how-num">4</div><div class="how-label">Close</div><div class="how-desc">Navigation + references including the tool or method from the video</div></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-try">Header</span>
+      <span class="section-name">Publication context</span>
+      <span class="section-purpose">Reconnects before the shift to action</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">Format</div>
+        <div class="field-content">
+          <em>Fieldwork</em> · Week [X], Part 2<br>
+          [Pillar tag: Accessibility / Disability Justice / Emergent Learning]
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Same heading as Part 1</div>
+        <div class="field-content instruction">Repeat the week's provocation heading — it holds both posts together as one unit. Follow immediately with one sentence that reconnects to last week's concept and signals the shift: from understanding to action. Something like: "Last week we looked at why [X]. This week we put it to work."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRY -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-try">Try</span>
+      <span class="section-name">The practical activity</span>
+      <span class="section-purpose">Concept moving into the reader's hands</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">Opening paragraph</div>
+        <div class="field-content instruction">One short paragraph that names the skill or practice and connects it directly to the week's concept. Why this activity, why now, why it matters in the reader's specific context. Respect their time from the first sentence.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">The activity — step by step</div>
+        <div class="steps-list">
+          <div class="step-item"><div class="step-num">1</div><div class="step-text">Written for an early-career practitioner who has never done this before. Plain language, no jargon.</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-text">No assumed tools or institutional resources — adaptable to any context and any level of access.</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-text">Each step is a complete action, not a category. "Write down three..." not "Consider..."</div></div>
+          <div class="step-item"><div class="step-num">4</div><div class="step-text">3–6 steps total. If it takes more than 6, it is two activities — split it or simplify it.</div></div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Activity metadata</div>
+        <div class="meta-row">
+          <span class="meta-pill">Time required: [X minutes]</span>
+          <span class="meta-pill">What you need: [minimal list]</span>
+          <span class="meta-pill">Adapting for your context: [one sentence]</span>
+        </div>
+      </div>
+      <div class="length-note">Activity section: 200–300 words</div>
+    </div>
+  </div>
+
+  <!-- WATCH -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-try">Watch</span>
+      <span class="section-name">The companion video</span>
+      <span class="section-purpose">Standalone on YouTube · companion in the post</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">What the video does</div>
+        <div class="field-content">Demonstrates a concrete skill or digital tool that an early-career learning designer can apply immediately. The written Try section contextualises and adapts — the video shows. They are companions, not duplicates.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Introduction line</div>
+        <div class="field-content instruction">One sentence that names what skill or tool the video demonstrates and why it is worth the viewer's time. Functional — not promotional.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Video block</div>
+        <div class="video-block">
+          <div class="video-icon">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div class="video-text"><strong>[Video title]</strong><br>2–3 sentences of context written to work for both audiences: Substack readers who have not watched yet, and YouTube viewers arriving independently. What will they learn? What will they be able to do afterward that they could not before? Keep this functional.</div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">Playlist line</div>
+        <div class="field-content instruction">After the embed or link: "This video is part of the Fieldwork playlist — a standalone series of practical skills for inclusive learning designers." Include the playlist link. This line works both ways: it contextualises the video for Substack readers, and it gives YouTube viewers a path to the full series.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Video design principles</div>
+        <div class="field-content instruction">Each video should work without the Substack post — a viewer who finds it on YouTube should understand what they are watching and why without any prior context. Keep videos focused on one skill or tool. Assume early-career practitioners who are capable and busy. Respect their time as much as the post does.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-try">Share</span>
+      <span class="section-name">The conversation prompt</span>
+      <span class="section-purpose">Meaningful progress happens through collaboration</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">Framing sentence</div>
+        <div class="field-content instruction">One sentence that explains why this particular idea benefits from being thought through with others — not generically, but specifically for this week's concept. Make the case for the conversation before offering the prompt.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">This week's prompt</div>
+        <div class="field-content instruction">A single, specific question or provocation for the reader to bring to a colleague, peer group, or community. Concrete enough to start a real conversation. Open enough that different contexts will produce different answers. Not "discuss accessibility" — something like: "Show someone a piece of learning content you have designed and ask them: what would need to be different for this to work for someone you have not designed for yet?"</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Note on community</div>
+        <div class="field-content instruction">The Share prompt reflects the conviction that collective knowledge is more resilient than individual expertise. It is not a social media call-to-action — it is an invitation to the kind of conversation that changes how someone sees their work. Write it accordingly.</div>
+      </div>
+      <div class="length-note">Share section: 80–120 words</div>
+    </div>
+  </div>
+
+  <!-- REFLECT -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-try">Reflect</span>
+      <span class="section-name">The open question</span>
+      <span class="section-purpose">Points to the field's future, not the post's past</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">What this section does</div>
+        <div class="field-content">Closes the post with a question that is genuinely unresolved — not a summary of what was covered, not a question the post has already answered. It points toward where the field is heading: what is not yet known, what practitioners are still working out, what the reader might be positioned to contribute to. It should feel slightly larger than this week, pointing toward the horizon.</div>
+      </div>
+      <div class="field">
+        <div class="field-label">Tone</div>
+        <div class="field-content instruction">Curious, not provocative. The question should feel like an invitation to think, not a challenge to answer. It is intended for ongoing consideration, not quick resolution. A reader should be able to return to it weeks later and find it still open.</div>
+      </div>
+      <div class="length-note">2–3 sentences · one question</div>
+    </div>
+  </div>
+
+  <!-- CLOSE -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-tag tag-neutral">Close</span>
+      <span class="section-name">Navigation + references</span>
+      <span class="section-purpose">Paths forward for every kind of reader</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="field-label">Navigation</div>
+        <div class="nav-block">
+          <div>
+            <div class="nav-item-label">Next post</div>
+            <div class="nav-item-text">Part 1, Week [X+1] — one sentence naming the tension the next week will work with. Enough to create anticipation without giving it away.</div>
+          </div>
+          <div>
+            <div class="nav-item-label">Structural reference</div>
+            <div class="nav-item-text">Link to structure.html for readers who want to see where this week sits in the full 24-week arc.</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label">References & further reading</div>
+        <div class="refs-block">
+          <div class="refs-tier">
+            <div class="refs-tier-label">Sources that informed this post</div>
+            <div class="refs-item">Author, <em>Title</em>, Year — one sentence on what this source contributes.</div>
+            <div class="refs-item">Author, <em>Title</em>, Year — one sentence on what this source contributes.</div>
+          </div>
+          <div class="refs-tier">
+            <div class="refs-tier-label">On the tool or method from this week's video</div>
+            <div class="refs-item">Author or organisation, <em>Title or resource name</em>, Year — one sentence. This entry gives YouTube viewers who arrive independently a path to the conceptual grounding behind the skill demonstrated.</div>
+          </div>
+          <div class="refs-tier">
+            <div class="refs-tier-label">Worth going further with</div>
+            <div class="refs-item">Author, <em>Title</em>, Year — one sentence on the angle this source takes and who it is most useful for.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <p>Fieldwork: Accessibility, Disability Justice, and Emergent Learning — Post Templates</p>
+    <p style="margin-top:4px"><a href="index.html">Back to overview</a> · <a href="structure.html">Structural recipe</a></p>
+  </div>
+</footer>
+
+<script>
+function showTab(id, btn, cls) {
+  document.querySelectorAll('.template-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active','p1','p2'); b.setAttribute('aria-selected','false'); });
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active', cls);
+  btn.setAttribute('aria-selected','true');
+  document.getElementById('main').scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>

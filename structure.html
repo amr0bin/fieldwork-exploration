@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldwork — The Structural Recipe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1916;
+  --ink-2: #4a4944;
+  --ink-3: #8a8880;
+  --surface: #f7f5f0;
+  --surface-2: #edeae2;
+  --surface-3: #e2dfd5;
+  --white: #ffffff;
+  --pillar-a: #3C3489;
+  --pillar-a-light: #EEEDFE;
+  --pillar-dj: #085041;
+  --pillar-dj-light: #E1F5EE;
+  --pillar-el: #712B13;
+  --pillar-el-light: #FAECE7;
+  --heading-accent: #3C3489;
+  --sub-a: #3C3489;
+  --sub-dj: #085041;
+  --sub-el: #712B13;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; color: var(--ink); background: var(--surface); }
+
+.skip-link { position: absolute; top: -100px; left: 1rem; background: var(--heading-accent); color: #fff; padding: 0.5rem 1rem; border-radius: var(--radius); text-decoration: none; font-size: 14px; z-index: 9999; }
+.skip-link:focus { top: 1rem; }
+
+header { background: var(--white); border-bottom: 1px solid var(--surface-3); padding: 0 2rem; position: sticky; top: 0; z-index: 100; }
+.header-inner { max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 2rem; }
+.wordmark { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); text-decoration: none; }
+.wordmark em { font-style: italic; color: var(--pillar-a); }
+.back-link { font-size: 13px; color: var(--ink-2); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.back-link:hover { color: var(--ink); }
+
+.hero { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem 2.5rem; }
+.hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; }
+.hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+.hero h1 em { font-style: italic; color: var(--pillar-a); }
+.hero-lead { font-size: 16px; font-weight: 300; color: var(--ink-2); max-width: 600px; line-height: 1.7; margin-bottom: 2rem; }
+
+.recipe-key { background: var(--white); border: 1px solid var(--surface-3); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; max-width: 1000px; margin: 0 auto 2rem; }
+.recipe-key-title { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; }
+.recipe-key-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.key-item { padding: 10px 12px; border-radius: var(--radius); background: var(--surface-2); }
+.key-num { font-size: 11px; color: var(--ink-3); margin-bottom: 2px; }
+.key-label { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+.key-desc { font-size: 11px; color: var(--ink-2); line-height: 1.4; }
+
+.phase-nav { max-width: 1000px; margin: 0 auto 0; padding: 0 2rem 1.5rem; display: flex; gap: 6px; flex-wrap: wrap; }
+.phase-nav-btn { font-family: 'DM Sans', sans-serif; font-size: 12px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--surface-3); background: var(--white); color: var(--ink-2); cursor: pointer; transition: all 0.15s; }
+.phase-nav-btn:hover { border-color: var(--ink-3); color: var(--ink); }
+.phase-nav-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+.main-content { max-width: 1000px; margin: 0 auto; padding: 0 2rem 4rem; }
+
+.phase-block { display: none; }
+.phase-block.active { display: block; }
+
+.phase-header { padding: 1.5rem 0 1rem; border-top: 2px solid var(--ink); margin-bottom: 1.5rem; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.phase-title { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--ink); }
+.phase-title em { font-style: italic; color: var(--pillar-a); }
+.phase-goal { font-size: 13px; color: var(--ink-3); font-style: italic; }
+
+.week-card { background: var(--white); border: 1px solid var(--surface-3); border-radius: var(--radius-lg); margin-bottom: 20px; overflow: hidden; }
+.week-card-header { display: grid; grid-template-columns: auto 1fr; gap: 1.25rem; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--surface-2); align-items: start; }
+.week-badge { font-size: 11px; font-weight: 500; color: var(--ink-3); background: var(--surface-2); padding: 3px 10px; border-radius: 999px; white-space: nowrap; margin-top: 3px; }
+.week-heading { font-family: 'DM Serif Display', serif; font-size: 1.25rem; line-height: 1.25; color: var(--ink); font-style: italic; }
+
+.week-body { display: grid; grid-template-columns: 1fr 1fr; }
+.week-col { padding: 1.25rem 1.5rem; }
+.week-col + .week-col { border-left: 1px solid var(--surface-2); }
+.week-col-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; }
+
+.subheadings-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.sub-item { padding: 8px 10px; border-radius: 6px; }
+.sub-item.access { background: var(--pillar-a-light); }
+.sub-item.dj { background: var(--pillar-dj-light); }
+.sub-item.el { background: var(--pillar-el-light); }
+.sub-pillar { font-size: 10px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
+.sub-item.access .sub-pillar { color: var(--sub-a); }
+.sub-item.dj .sub-pillar { color: var(--sub-dj); }
+.sub-item.el .sub-pillar { color: var(--sub-el); }
+.sub-text { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; }
+
+.keywords-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1rem; }
+.keyword { font-size: 12px; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--surface-3); }
+
+.key-sentences { display: flex; flex-direction: column; gap: 10px; }
+.key-sentence { border-left: 3px solid var(--surface-3); padding: 6px 10px; }
+.key-sentence.access { border-left-color: var(--pillar-a); }
+.key-sentence.dj { border-left-color: var(--pillar-dj); }
+.key-sentence.el { border-left-color: var(--pillar-el); }
+.ks-label { font-size: 10px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 3px; }
+.key-sentence.access .ks-label { color: var(--sub-a); }
+.key-sentence.dj .ks-label { color: var(--sub-dj); }
+.key-sentence.el .ks-label { color: var(--sub-el); }
+.ks-text { font-size: 13px; color: var(--ink-2); line-height: 1.5; font-style: italic; }
+
+@media (max-width: 680px) {
+  .recipe-key-grid { grid-template-columns: 1fr 1fr; }
+  .week-body { grid-template-columns: 1fr; }
+  .week-col + .week-col { border-left: none; border-top: 1px solid var(--surface-2); }
+  .week-card-header { grid-template-columns: 1fr; gap: 0.5rem; }
+  header { padding: 0 1rem; }
+  .hero, .main-content, .phase-nav { padding-left: 1rem; padding-right: 1rem; }
+  .recipe-key { margin-left: 1rem; margin-right: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header>
+  <div class="header-inner">
+    <a class="wordmark" href="index.html"><em>Fieldwork</em> — Accessible Learning Labs</a>
+    <a class="back-link" href="index.html">&#8592; Back to overview</a>
+  </div>
+</header>
+
+<div class="hero">
+  <p class="hero-eyebrow">Reference document</p>
+  <h1>The structural <em>recipe</em></h1>
+  <p class="hero-lead">For each of the 24 weeks: the heading provocation, three subheadings mirroring the three pillars, the conceptual keywords, and the load-bearing key sentences. This is the skeleton that holds the writing together.</p>
+</div>
+
+<div class="recipe-key" aria-label="How to read this document">
+  <div class="recipe-key-title">How to read each week</div>
+  <div class="recipe-key-grid">
+    <div class="key-item"><div class="key-num">1</div><div class="key-label">Heading</div><div class="key-desc">The provocation — an argument starter, not a topic label</div></div>
+    <div class="key-item"><div class="key-num">2</div><div class="key-label">Subheadings</div><div class="key-desc">Three moves: infrastructure → ethics → method, mirroring the three pillars</div></div>
+    <div class="key-item"><div class="key-num">3</div><div class="key-label">Keywords</div><div class="key-desc">3–5 conceptual anchors that recur across weeks to build cumulative understanding</div></div>
+    <div class="key-item"><div class="key-num">4</div><div class="key-label">Key sentences</div><div class="key-desc">One load-bearing claim per subheading — true at week level and hypothesis level</div></div>
+  </div>
+</div>
+
+<div class="phase-nav" role="tablist" aria-label="Curriculum phases">
+  <button class="phase-nav-btn active" role="tab" aria-selected="true" aria-controls="phase-1" onclick="showPhase(1,this)">Phase 1 — Weeks 1–6</button>
+  <button class="phase-nav-btn" role="tab" aria-selected="false" aria-controls="phase-2" onclick="showPhase(2,this)">Phase 2 — Weeks 7–12</button>
+  <button class="phase-nav-btn" role="tab" aria-selected="false" aria-controls="phase-3" onclick="showPhase(3,this)">Phase 3 — Weeks 13–18</button>
+  <button class="phase-nav-btn" role="tab" aria-selected="false" aria-controls="phase-4" onclick="showPhase(4,this)">Phase 4 — Weeks 19–24</button>
+</div>
+
+<main class="main-content" id="main">
+
+<!-- ═══════════════════════════════════════════ PHASE 1 ═══ -->
+<div id="phase-1" class="phase-block active" role="tabpanel">
+  <div class="phase-header">
+    <div class="phase-title">Phase 1 — <em>Foundations &amp; thesis discovery</em></div>
+    <div class="phase-goal">Align personal interest with the thesis and establish the research problem</div>
+  </div>
+
+  <!-- WEEK 1 -->
+  <article class="week-card" aria-labelledby="w1-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 1</span>
+      <h2 class="week-heading" id="w1-heading">The gap between policy and practice is not an accident — it is a design choice.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What the system claims to do for all learners</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Who the system was actually designed for</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">What becomes possible when you start from your own context</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">high-stakes environment</span>
+          <span class="keyword">policy-practice gap</span>
+          <span class="keyword">personal interest</span>
+          <span class="keyword">systems of knowledge</span>
+          <span class="keyword">problem identification</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Most learning systems can describe their accessibility commitments in policy but cannot demonstrate them in practice.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">The environment you work in is not neutral — it was designed with particular bodies, minds, and experiences in mind, and those choices are still operating.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Your context is not just where you will apply the learning — it is the primary research site, and your own curiosity is the first instrument.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 2 -->
+  <article class="week-card" aria-labelledby="w2-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 2</span>
+      <h2 class="week-heading" id="w2-heading">Accessibility without justice is compliance. Justice without method is aspiration. You need all three.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">The infrastructure: what legal compliance actually requires</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">The compass: why compliance alone isn't enough</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">The method: how the three pillars work together in practice</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">three pillars</span>
+          <span class="keyword">hypothesis</span>
+          <span class="keyword">infrastructure</span>
+          <span class="keyword">compass</span>
+          <span class="keyword">synthesis</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Accessibility legislation sets a legal floor — the minimum a system must do — but a floor is not a destination.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Disability justice asks who was in the room when the floor was set, and whose exclusion was written into the standard itself.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Emergent learning is the practice that holds both pillars in motion — it transforms static compliance and ethical commitment into a living, adaptive system.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 3 -->
+  <article class="week-card" aria-labelledby="w3-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 3</span>
+      <h2 class="week-heading" id="w3-heading">Knowledge only travels as far as the systems designed to carry it — and most systems were not designed to carry everyone.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">How learning systems are currently structured to deliver knowledge</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Who falls through the gaps those structures create</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">What a preliminary scan of your environment actually reveals</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">preliminary research</span>
+          <span class="keyword">systems scan</span>
+          <span class="keyword">structural gaps</span>
+          <span class="keyword">knowledge systems</span>
+          <span class="keyword">environmental analysis</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Every learning environment has a de facto delivery system — the question is whether it was designed intentionally or inherited by default.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">The gaps in a system are not random; they trace the boundaries of whose participation was assumed from the start.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Preliminary research is not passive — it is the first act of inquiry, and what you notice first tells you something important about where your attention has been trained.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 4 -->
+  <article class="week-card" aria-labelledby="w4-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 4</span>
+      <h2 class="week-heading" id="w4-heading">A research question is not a topic — it is a commitment to look at something specific enough to actually see it.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What makes a question researchable within a real system</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Whose experience should the question be designed to surface</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How a well-framed question opens the inquiry rather than closing it</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">research question</span>
+          <span class="keyword">narrowing focus</span>
+          <span class="keyword">collective access</span>
+          <span class="keyword">framing</span>
+          <span class="keyword">researchable scope</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">A researchable question must be specific enough to test within a real environment, with real constraints — not broad enough to be true everywhere and therefore verifiable nowhere.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">The best research questions in inclusive design are asked on behalf of the people most systematically excluded from the existing research — naming them in the question is not rhetorical, it is methodological.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">A well-framed question does not predict its answer — it creates the conditions under which an unexpected answer can surface and be taken seriously.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 5 -->
+  <article class="week-card" aria-labelledby="w5-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 5</span>
+      <h2 class="week-heading" id="w5-heading">Ethical constraints are not obstacles to good research — they are part of the design.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What resources, time, and access your investigation actually has</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">What ethical obligations arise when researching marginalized communities</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How constraints become generative when treated as part of the inquiry</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">feasibility</span>
+          <span class="keyword">ethical implications</span>
+          <span class="keyword">informed consent</span>
+          <span class="keyword">resource mapping</span>
+          <span class="keyword">scope</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">A 24-week investigation requires honest accounting of what you actually have access to — the research will be shaped by those realities whether you name them or not.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">When your research participants include people from marginalized communities, informed consent is not a form to be signed — it is an ongoing relationship to be maintained.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Acknowledging your constraints early does not narrow the inquiry — it focuses it, and focused inquiry produces more honest findings than unconstrained ambition.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 6 -->
+  <article class="week-card" aria-labelledby="w6-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 6</span>
+      <h2 class="week-heading" id="w6-heading">A research proposal is not a plan to be followed — it is a hypothesis about how to learn.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What a proposal must specify: objectives, method, significance</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Who the proposal is accountable to beyond the institution</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How a living blueprint stays responsive as the research unfolds</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">research proposal</span>
+          <span class="keyword">blueprint</span>
+          <span class="keyword">accountability</span>
+          <span class="keyword">iterative design</span>
+          <span class="keyword">significance</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">A strong proposal names its objectives clearly enough that anyone reading it could assess whether the investigation actually achieved them.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">The significance of inclusive design research is not measured by its contribution to the literature alone — it is measured by what it changes for the people who were the subject of the inquiry.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">The proposal is a starting position, not a contract — the capacity to revise it in response to what you actually find is not weakness, it is intellectual honesty.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 2 ═══ -->
+<div id="phase-2" class="phase-block" role="tabpanel">
+  <div class="phase-header">
+    <div class="phase-title">Phase 2 — <em>Literature review &amp; theoretical scaffolding</em></div>
+    <div class="phase-goal">Situate the inquiry within existing legal, social, and pedagogical frameworks</div>
+  </div>
+
+  <!-- WEEK 7 -->
+  <article class="week-card" aria-labelledby="w7-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 7</span>
+      <h2 class="week-heading" id="w7-heading">The law tells you the minimum. It does not tell you what inclusion actually feels like from the inside.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What ACA, AODA, and ADA actually mandate — and what they leave open</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Who shaped these laws and whose experience informed their limits</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How legal literacy becomes a tool for design, not just compliance</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">Accessible Canada Act</span>
+          <span class="keyword">AODA</span>
+          <span class="keyword">ADA</span>
+          <span class="keyword">legal baseline</span>
+          <span class="keyword">rights-based approach</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">The ACA, AODA, and ADA define the legal floor — what federally regulated and provincially mandated organizations must do — but compliance with these laws does not guarantee an accessible experience.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Disability rights legislation was shaped by advocacy movements that were often predominantly white and focused on physical disability — the laws carry those assumptions into their standards.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Legal literacy is not the end of inclusive design — it is the beginning, and the most useful question is not "does this comply?" but "who does this still fail?"</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 8 -->
+  <article class="week-card" aria-labelledby="w8-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 8</span>
+      <h2 class="week-heading" id="w8-heading">Technical standards describe what accessible content must do — but a checklist cannot feel what a learner experiences.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">WCAG 2.1's four principles: perceivable, operable, understandable, robust</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">What WCAG compliance still cannot account for in lived experience</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How technical standards become a design starting point, not an endpoint</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">WCAG 2.1</span>
+          <span class="keyword">perceivability</span>
+          <span class="keyword">operability</span>
+          <span class="keyword">understandability</span>
+          <span class="keyword">robustness</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">WCAG 2.1 provides the technical vocabulary for accessible digital content — perceivable, operable, understandable, and robust — and every learning designer must know it fluently.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">A document can pass every WCAG criterion and still be emotionally inaccessible, culturally alienating, or pedagogically useless for the learner it was meant to serve.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Technical standards are the necessary grammar of accessibility — but grammar alone does not make meaning, and meaning is what learning requires.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 9 -->
+  <article class="week-card" aria-labelledby="w9-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 9</span>
+      <h2 class="week-heading" id="w9-heading">Disability justice does not begin where disability rights ends — it begins where disability rights refuses to look.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What the social model of disability changed — and what it still misses</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Intersectionality, leadership of those most impacted, and interdependence</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How disability justice reframes the designer's role and relationship to learners</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">disability justice</span>
+          <span class="keyword">intersectionality</span>
+          <span class="keyword">social model</span>
+          <span class="keyword">interdependence</span>
+          <span class="keyword">leadership of those most impacted</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">The social model of disability — which locates the problem in society rather than in the person — was a radical reframe, but it has been critiqued for treating disability as a single-axis identity.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">We do not live single-issue lives: a disabled person who is also Black, queer, and working-class experiences a compounded, intersectional form of exclusion that neither disability rights nor anti-racism fully names.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Disability justice asks the designer to move from expert to co-learner — the people most impacted by a system must lead its redesign, because their knowledge of what fails is irreplaceable.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 10 -->
+  <article class="week-card" aria-labelledby="w10-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 10</span>
+      <h2 class="week-heading" id="w10-heading">Learning is not a product delivered to a learner — it is a process that happens between people, in context, over time.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">How traditional education models structure the delivery of knowledge</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Freire's critique: whose knowledge counts, and who gets to ask why</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">What emergent learning looks like when it is working</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">emergent learning</span>
+          <span class="keyword">Paulo Freire</span>
+          <span class="keyword">critical pedagogy</span>
+          <span class="keyword">context-driven</span>
+          <span class="keyword">collaborative inquiry</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Traditional education models treat learning as a transfer of information from expert to novice — a structure that is efficient for delivering content but poorly suited to building understanding.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Freire's "banking concept" of education — where learners are passive recipients of a teacher's deposits — is not just pedagogically limited, it is politically loaded: it decides whose knowledge has value before the learner enters the room.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Emergent learning treats knowledge as something that arises in the interaction between people and their context — which means the designer's job is to create conditions, not to control outcomes.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 11 -->
+  <article class="week-card" aria-labelledby="w11-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 11</span>
+      <h2 class="week-heading" id="w11-heading">The brain does not store information the way a hard drive does — and most curriculum design pretends it does.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What cognitive science tells us about how learning becomes memory</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">How neurological diversity challenges the "standard" learner assumption</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">Active learning, spaced repetition, and emotional engagement as design principles</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">neuroplasticity</span>
+          <span class="keyword">spaced repetition</span>
+          <span class="keyword">active learning</span>
+          <span class="keyword">emotional engagement</span>
+          <span class="keyword">neuroeducation</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Neuroeducation demonstrates that memory formation requires active engagement, spaced repetition, and emotional relevance — none of which is guaranteed by content delivery alone.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">The "standard" learner assumed by most curriculum design is neurotypical by default — and every accommodation added afterward is evidence of a design that failed before it started.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">When a learning environment stimulates neural growth through active participation and emotional connection, it is not just being more engaging — it is being more accessible.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 12 -->
+  <article class="week-card" aria-labelledby="w12-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 12</span>
+      <h2 class="week-heading" id="w12-heading">Most inclusive design has one of the three pillars. The gap in the literature is the synthesis.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">Where the accessibility literature stops short of justice or pedagogy</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Where disability justice frameworks lack practical learning methodology</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How identifying the gap becomes the research contribution</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">research gaps</span>
+          <span class="keyword">literature synthesis</span>
+          <span class="keyword">integration failure</span>
+          <span class="keyword">gap statement</span>
+          <span class="keyword">three-pillar synthesis</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">The accessibility literature is technically sophisticated but often ethically thin — it tells you what to build without asking who was consulted in the building.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">The disability justice literature is ethically rich but rarely translates its principles into specific, replicable pedagogical practices — the compass points, but does not always map the path.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">The gap that matters — the one this body of work addresses — is not missing information but missing integration: no existing framework holds all three pillars together as a functioning system.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 3 ═══ -->
+<div id="phase-3" class="phase-block" role="tabpanel">
+  <div class="phase-header">
+    <div class="phase-title">Phase 3 — <em>Investigation &amp; methodology</em></div>
+    <div class="phase-goal">Conduct field research to gather qualitative and quantitative data</div>
+  </div>
+
+  <!-- WEEK 13 -->
+  <article class="week-card" aria-labelledby="w13-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 13</span>
+      <h2 class="week-heading" id="w13-heading">The method you choose is a statement about what kind of knowledge you believe counts.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What mixed methods offer that single approaches cannot</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Why quantitative data alone cannot capture what exclusion feels like</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How your method shapes what can emerge from the inquiry</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">mixed methods</span>
+          <span class="keyword">qualitative research</span>
+          <span class="keyword">quantitative research</span>
+          <span class="keyword">methodological alignment</span>
+          <span class="keyword">triangulation</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">A mixed-methods approach balances the measurable breadth of quantitative data with the contextual depth of qualitative insight — both are necessary for understanding a complex system.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Numbers can show that a gap exists; only lived-experience narratives can show what it costs, and both forms of evidence are necessary to make the argument for change.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">The method is not neutral — choosing to listen to marginalized learners in depth is itself an act of inclusive design, because it treats their experience as evidence rather than anecdote.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 14 -->
+  <article class="week-card" aria-labelledby="w14-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 14</span>
+      <h2 class="week-heading" id="w14-heading">You cannot design inclusively for people you have not genuinely consulted — and consultation is not the same as asking permission.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">Who counts as a stakeholder in an inclusive learning system</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">The difference between consultation and co-design</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How genuine stakeholder engagement changes what you find</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">stakeholder engagement</span>
+          <span class="keyword">inclusive consultation</span>
+          <span class="keyword">co-design</span>
+          <span class="keyword">lived experience</span>
+          <span class="keyword">community voice</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Inclusive consultation requires deliberately seeking out the stakeholders who are least likely to appear in official feedback channels — because their absence from those channels is itself evidence of a design failure.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Co-design is not asking disabled learners to validate decisions already made — it is inviting them into the process before the decisions exist, and accepting that their presence will change the design.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">When the people most affected by a system are consulted as full participants in its redesign, the inquiry becomes something different — it becomes collective, and collective knowledge is more resilient than individual expertise.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 15 -->
+  <article class="week-card" aria-labelledby="w15-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 15</span>
+      <h2 class="week-heading" id="w15-heading">Listening is a research method — and most of us were never taught to do it without an agenda.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What qualitative methods — interviews, focus groups — make visible</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">How to listen to marginalized experience without extracting it</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">What open-ended listening reveals that structured questions cannot</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">qualitative data</span>
+          <span class="keyword">in-depth interviews</span>
+          <span class="keyword">focus groups</span>
+          <span class="keyword">lived experience</span>
+          <span class="keyword">extractive research</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">In-depth interviews and focus groups give marginalized learners the space to describe their experience in their own terms — which is often very different from the terms the system uses to describe them.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Extractive research takes stories from communities and gives back publications — genuinely inclusive research asks what the community needs from the process, and builds that into the design.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">The most important data in an inclusive design inquiry often arrives unexpectedly — which is why the researcher must be trained to listen for what they did not think to ask about.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 16 -->
+  <article class="week-card" aria-labelledby="w16-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 16</span>
+      <h2 class="week-heading" id="w16-heading">Numbers make the invisible visible at scale — but only if you ask questions that allow the truth to show up.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What surveys can measure about accessibility and engagement across a system</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">How survey design can perpetuate the very biases it claims to measure</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">Using quantitative data as a provocation rather than a conclusion</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">quantitative data</span>
+          <span class="keyword">surveys</span>
+          <span class="keyword">sampling</span>
+          <span class="keyword">measurement bias</span>
+          <span class="keyword">systemic trends</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Surveys allow you to measure patterns across a population that qualitative methods alone cannot reach — they reveal the scale of a problem even when individual stories have been overlooked.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">A survey designed without input from the communities it targets will measure what the designer assumed was important — and systematically miss what the community knows is actually going on.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Quantitative findings are most useful when treated as questions, not answers — the number that surprises you is an invitation to go back into the community and ask why.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 17 -->
+  <article class="week-card" aria-labelledby="w17-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 17</span>
+      <h2 class="week-heading" id="w17-heading">Informed consent is not a form — it is a relationship, and it has to be renegotiated as the research changes.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What ethical research standards require at every stage of inquiry</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Why marginalized participants require deeper ethical accountability</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">Ethics as an ongoing practice woven into the research, not a checkpoint at the start</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">informed consent</span>
+          <span class="keyword">confidentiality</span>
+          <span class="keyword">anonymity</span>
+          <span class="keyword">ethical oversight</span>
+          <span class="keyword">ongoing accountability</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Ethical research requires informed consent, confidentiality, and anonymity as baseline conditions — not optional additions — for every participant at every stage.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">When research participants belong to communities that have historically been exploited by researchers, the ethical obligation extends beyond compliance — it requires transparency about how the findings will be used and who will benefit.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">As the research evolves and unexpected directions emerge, ethical oversight must evolve with it — the initial consent form cannot anticipate everything the inquiry will require.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 18 -->
+  <article class="week-card" aria-labelledby="w18-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 18</span>
+      <h2 class="week-heading" id="w18-heading">Sharing preliminary findings is not a risk to manage — it is a research method that makes the findings better.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What a peer-based inquiry session looks like in practice</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Whose perspectives must be present in the room for the analysis to be trustworthy</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">How cross-pollination of ideas strengthens both the findings and the community</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">collaborative inquiry</span>
+          <span class="keyword">peer-based learning</span>
+          <span class="keyword">cross-pollination</span>
+          <span class="keyword">collective sensemaking</span>
+          <span class="keyword">preliminary findings</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">A collaborative inquiry session creates a structured space for preliminary findings to be examined by multiple perspectives before they harden into conclusions.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">If the people most affected by the system are not present when the findings are analyzed, the analysis will reflect the assumptions of whoever is in the room — and that is a validity problem, not just an ethical one.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">When peers from different contexts engage with the same preliminary findings, the patterns that survive across those conversations are the ones most likely to be real.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+<!-- ═══════════════════════════════════════════ PHASE 4 ═══ -->
+<div id="phase-4" class="phase-block" role="tabpanel">
+  <div class="phase-header">
+    <div class="phase-title">Phase 4 — <em>Analysis, design &amp; synthesis</em></div>
+    <div class="phase-goal">Translate findings into inclusive learning content and finalize the thesis</div>
+  </div>
+
+  <!-- WEEK 19 -->
+  <article class="week-card" aria-labelledby="w19-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 19</span>
+      <h2 class="week-heading" id="w19-heading">Analysis is not the moment you discover what your data means — it is the moment you decide what questions to bring to it.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">Thematic and statistical methods for making sense of mixed data</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">How to analyze without flattening the complexity of lived experience</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">Holding findings lightly enough that unexpected meaning can surface</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">thematic analysis</span>
+          <span class="keyword">statistical methods</span>
+          <span class="keyword">data interpretation</span>
+          <span class="keyword">reliability</span>
+          <span class="keyword">validity</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Thematic analysis surfaces recurring patterns in qualitative data; statistical methods identify relationships in quantitative data — used together, they produce findings that are both deep and broad.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Flattening complex lived experience into a clean finding is its own form of exclusion — analysis must preserve enough specificity that the people whose stories generated the data would still recognize themselves in the conclusions.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">The most important analytical move is staying curious about the finding that doesn't fit — because the outlier is usually where the system's real logic is hiding.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 20 -->
+  <article class="week-card" aria-labelledby="w20-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 20</span>
+      <h2 class="week-heading" id="w20-heading">When the same pattern appears across different contexts, it stops being a local problem and starts being a systemic one.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What cross-case analysis reveals about systemic accessibility failures</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">How shared patterns of exclusion name structural, not individual, problems</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">What comparing across contexts makes possible that single-case analysis cannot</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">cross-case analysis</span>
+          <span class="keyword">systemic patterns</span>
+          <span class="keyword">comparative analysis</span>
+          <span class="keyword">transferability</span>
+          <span class="keyword">broader insights</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Cross-case analysis compares findings across different learner groups and environments to identify patterns that transcend any single context — and those patterns are the most actionable findings.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">When disabled learners in different institutions describe the same barrier in different words, it is no longer an individual experience — it is evidence of a structural problem that no individual accommodation can fix.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">The insight that holds across multiple different contexts is the one most likely to generate a learning design that can adapt — because it was born from diversity rather than from a single case.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 21 -->
+  <article class="week-card" aria-labelledby="w21-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 21</span>
+      <h2 class="week-heading" id="w21-heading">If you do not know what transformation looks like at the end, you cannot design the path toward it.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">How backward design ensures every element serves the learning goal</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Defining "transformation" and "resilience" in terms of the learners most impacted</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">Working backward from social change as a design constraint</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">backward design</span>
+          <span class="keyword">end goals</span>
+          <span class="keyword">social transformation</span>
+          <span class="keyword">resilience</span>
+          <span class="keyword">learning outcomes</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Backward design begins with the end — what should learners be able to do, understand, and embody — and works backward to ensure that every instructional choice serves that destination.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">Defining transformation in terms of the most marginalized learner — not the average or the most able — produces a learning system that genuinely includes rather than one that accommodates after the fact.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">When social transformation is the explicit goal of a learning design, every content choice, every facilitation decision, and every assessment becomes answerable to a question more demanding than "is this correct?" — namely, "does this change anything?"</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 22 -->
+  <article class="week-card" aria-labelledby="w22-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 22</span>
+      <h2 class="week-heading" id="w22-heading">A prototype is not a polished product — it is a question made physical enough to test with real people.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">Applying UDL principles — representation, action, engagement — to the prototype</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Why the first test must involve the people the design is for</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">What a rough prototype teaches you that planning cannot</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">prototype</span>
+          <span class="keyword">Universal Design for Learning</span>
+          <span class="keyword">proactive design</span>
+          <span class="keyword">user testing</span>
+          <span class="keyword">multiple means</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">UDL's three principles — multiple means of representation, action and expression, and engagement — must be applied from the first draft of the prototype, not retrofitted into a finished product.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">The first person to test the prototype should be someone who would typically be excluded by the default version — because their experience will reveal the design assumptions that were invisible to the designer.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">A rough prototype in the hands of a real learner generates more honest design feedback in one session than months of planning — imperfection is not a failure of the prototype, it is its function.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 23 -->
+  <article class="week-card" aria-labelledby="w23-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 23</span>
+      <h2 class="week-heading" id="w23-heading">Feedback is not the end of design — it is the design continuing through other people's eyes.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">How structured feedback processes improve clarity and usability</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">Whose feedback has been missing from inclusive design processes — and why</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">Reflection-in-action and reflection-on-action as iterative design practices</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">iteration</span>
+          <span class="keyword">peer review</span>
+          <span class="keyword">reflection-on-action</span>
+          <span class="keyword">reflection-in-action</span>
+          <span class="keyword">refinement</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">Structured feedback from advisors, peers, and original stakeholders identifies gaps in clarity, coherence, and accessibility that the designer, too close to their own work, cannot see.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">If the stakeholders who were consulted in the research phase are not also consulted in the feedback phase, the final design risks betraying the insights that were trusted to you.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Donald Schön's distinction between reflection-on-action (after) and reflection-in-action (during) describes two different kinds of learning — and a mature designer practices both, using feedback as the trigger for each.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- WEEK 24 -->
+  <article class="week-card" aria-labelledby="w24-heading">
+    <div class="week-card-header">
+      <span class="week-badge">Week 24</span>
+      <h2 class="week-heading" id="w24-heading">The work is only complete when it can be used by someone who was not in the room when it was made.</h2>
+    </div>
+    <div class="week-body">
+      <div class="week-col">
+        <div class="week-col-label">Subheadings</div>
+        <ul class="subheadings-list">
+          <li class="sub-item access"><div class="sub-pillar">Accessibility</div><div class="sub-text">What a final learning system must demonstrate about accessibility</div></li>
+          <li class="sub-item dj"><div class="sub-pillar">Disability Justice</div><div class="sub-text">How the final work embodies collective access and intersectional learning</div></li>
+          <li class="sub-item el"><div class="sub-pillar">Emergent Learning</div><div class="sub-text">Dissemination as the beginning of the next cycle of emergence</div></li>
+        </ul>
+      </div>
+      <div class="week-col">
+        <div class="week-col-label">Keywords</div>
+        <div class="keywords-list">
+          <span class="keyword">culmination</span>
+          <span class="keyword">dissemination</span>
+          <span class="keyword">collective access</span>
+          <span class="keyword">relationality</span>
+          <span class="keyword">practitioner-researcher</span>
+        </div>
+        <div class="week-col-label" style="margin-top:1rem">Key sentences</div>
+        <div class="key-sentences">
+          <div class="key-sentence access"><div class="ks-label">Accessibility</div><div class="ks-text">The final body of work must be itself accessible — in format, in language, in the assumptions it makes about its reader — or it will reproduce the very exclusions it set out to address.</div></div>
+          <div class="key-sentence dj"><div class="ks-label">Disability Justice</div><div class="ks-text">A work that embodies collective access does not summarize the community's experience for an academic audience — it returns something usable to the community that generated the knowledge.</div></div>
+          <div class="key-sentence el"><div class="ks-label">Emergent Learning</div><div class="ks-text">Dissemination is not the end of the learning — it is the moment when the work enters a wider community and begins to adapt through contact with contexts its designer never anticipated, which is emergence continuing.</div></div>
+        </div>
+      </div>
+    </div>
+  </article>
+</div>
+
+</main>
+
+<footer style="border-top:1px solid var(--surface-3);padding:2rem;text-align:center;margin-top:2rem">
+  <div style="max-width:1000px;margin:0 auto;font-size:13px;color:var(--ink-3)">
+    <p>Fieldwork: Accessibility, Disability Justice, and Emergent Learning — Structural Recipe</p>
+    <p style="margin-top:4px"><a href="index.html" style="color:var(--ink-2)">Back to overview</a></p>
+  </div>
+</footer>
+
+<script>
+function showPhase(n, btn) {
+  document.querySelectorAll('.phase-block').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-nav-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+  document.getElementById('phase-' + n).classList.add('active');
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected','true');
+  document.getElementById('main').scrollIntoView({behavior:'smooth', block:'start'});
+}
+</script>
+</body>
+</html>

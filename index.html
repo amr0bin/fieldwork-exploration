@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fieldwork — Accessible Learning Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1916;
+  --ink-2: #4a4944;
+  --ink-3: #8a8880;
+  --surface: #f7f5f0;
+  --surface-2: #edeae2;
+  --surface-3: #e2dfd5;
+  --white: #ffffff;
+  --pillar-a: #3C3489;
+  --pillar-a-light: #EEEDFE;
+  --pillar-dj: #085041;
+  --pillar-dj-light: #E1F5EE;
+  --pillar-el: #712B13;
+  --pillar-el-light: #FAECE7;
+  --accent: #3C3489;
+  --why-color: #3C3489;
+  --why-bg: #EEEDFE;
+  --try-color: #085041;
+  --try-bg: #E1F5EE;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--surface);
+  min-height: 100vh;
+}
+
+/* ── SKIP LINK ── */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 14px;
+  z-index: 9999;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 1rem; }
+
+/* ── HEADER ── */
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--surface-3);
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  gap: 2rem;
+}
+
+.wordmark {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.wordmark em {
+  font-style: italic;
+  color: var(--pillar-a);
+}
+
+nav { display: flex; gap: 4px; }
+nav a {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+nav a:hover { background: var(--surface-2); color: var(--ink); }
+nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── HERO ── */
+.hero {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 5rem 2rem 3rem;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--pillar-a);
+}
+
+.hero-lead {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--ink-2);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+.hypothesis-card {
+  background: var(--white);
+  border: 1px solid var(--surface-3);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 2rem;
+  max-width: 760px;
+  border-left: 4px solid var(--pillar-a);
+}
+.hypothesis-card p {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-2);
+  line-height: 1.65;
+}
+
+/* ── SECTION WRAPPER ── */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem;
+}
+
+.section + .section {
+  border-top: 1px solid var(--surface-3);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.9rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+}
+.section-title em { font-style: italic; color: var(--pillar-a); }
+
+.section-intro {
+  font-size: 15px;
+  color: var(--ink-2);
+  max-width: 620px;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+}
+
+/* ── PILLARS ── */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 2rem;
+}
+
+.pillar-card {
+  background: var(--white);
+  border: 1px solid var(--surface-3);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.pillar-card.access::before { background: var(--pillar-a); }
+.pillar-card.dj::before { background: var(--pillar-dj); }
+.pillar-card.el::before { background: var(--pillar-el); }
+
+.pillar-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+.pillar-card.access .pillar-tag { background: var(--pillar-a-light); color: var(--pillar-a); }
+.pillar-card.dj .pillar-tag { background: var(--pillar-dj-light); color: var(--pillar-dj); }
+.pillar-card.el .pillar-tag { background: var(--pillar-el-light); color: var(--pillar-el); }
+
+.pillar-card h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.pillar-card p {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.pillar-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pillar-items li {
+  font-size: 13px;
+  color: var(--ink-2);
+  padding: 5px 0;
+  border-top: 1px solid var(--surface-2);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.pillar-items li::before {
+  content: '—';
+  color: var(--ink-3);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── PHASES ── */
+.phases-nav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.phase-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--surface-3);
+  background: var(--white);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.phase-btn:hover { border-color: var(--ink-3); color: var(--ink); }
+.phase-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.phase-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.phase-panel { display: none; }
+.phase-panel.active { display: block; }
+
+.phase-meta {
+  background: var(--white);
+  border: 1px solid var(--surface-3);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.phase-meta-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.phase-meta-goal {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.phase-meta-weeks {
+  font-size: 12px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.week-card {
+  background: var(--white);
+  border: 1px solid var(--surface-3);
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem;
+}
+
+.week-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.week-num-badge {
+  font-size: 11px;
+  color: var(--ink-3);
+  background: var(--surface-2);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.week-card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+}
+.week-card-desc {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+
+/* ── SUBSTACK MAP ── */
+.legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.legend-bar {
+  width: 20px;
+  height: 4px;
+  border-radius: 2px;
+}
+.legend-bar.why { background: var(--why-color); }
+.legend-bar.try { background: var(--try-color); }
+
+.substack-phase {
+  margin-bottom: 2.5rem;
+}
+
+.substack-phase-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.phase-pip {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.pip-1 { background: var(--pillar-a-light); color: var(--pillar-a); }
+.pip-2 { background: var(--pillar-dj-light); color: var(--pillar-dj); }
+.pip-3 { background: var(--pillar-el-light); color: var(--pillar-el); }
+.pip-4 { background: #E6F1FB; color: #0C447C; }
+
+.substack-phase-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.substack-phase-count {
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-left: auto;
+}
+
+.pieces-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.piece-card {
+  background: var(--white);
+  border: 1px solid var(--surface-3);
+  border-left: 3px solid transparent;
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+}
+.piece-card.why { border-left-color: var(--why-color); }
+.piece-card.try { border-left-color: var(--try-color); }
+
+.piece-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+.piece-index {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.piece-type-tag {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 999px;
+}
+.piece-type-tag.why { background: var(--why-bg); color: var(--why-color); }
+.piece-type-tag.try { background: var(--try-bg); color: var(--try-color); }
+
+.piece-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 2px;
+}
+.piece-sub {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.4;
+}
+
+/* ── COMPETENCIES ── */
+.competencies-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.comp-card {
+  background: var(--white);
+  border: 1px solid var(--surface-3);
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem;
+}
+
+.comp-number {
+  font-size: 11px;
+  color: var(--ink-3);
+  margin-bottom: 4px;
+}
+.comp-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.comp-pillar-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.comp-pillar-tag.access { background: var(--pillar-a-light); color: var(--pillar-a); }
+.comp-pillar-tag.dj { background: var(--pillar-dj-light); color: var(--pillar-dj); }
+.comp-pillar-tag.el { background: var(--pillar-el-light); color: var(--pillar-el); }
+.comp-pillar-tag.method { background: #E6F1FB; color: #0C447C; }
+.comp-desc {
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--surface-2);
+}
+
+/* ── SUMMARY STATS ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--surface-3);
+}
+.stat-card {
+  text-align: center;
+  padding: 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--surface-3);
+  border-radius: var(--radius);
+}
+.stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.2rem;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--surface-3);
+  padding: 2rem;
+  text-align: center;
+}
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+.footer-inner a { color: var(--ink-2); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .header-inner { gap: 1rem; }
+  nav a { padding: 6px 8px; font-size: 12px; }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .weeks-grid { grid-template-columns: 1fr; }
+  .pieces-grid { grid-template-columns: 1fr; }
+  .competencies-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .phase-meta { flex-direction: column; }
+}
+
+@media (max-width: 480px) {
+  .hero { padding: 3rem 1.25rem 2rem; }
+  .section { padding: 2.5rem 1.25rem; }
+  header { padding: 0 1.25rem; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header>
+  <div class="header-inner">
+    <a class="wordmark" href="#top"><em>Fieldwork</em> — Accessible Learning Labs</a>
+    <nav aria-label="Page sections">
+      <a href="#hypothesis">Hypothesis</a>
+      <a href="#curriculum">Curriculum</a>
+      <a href="#substack">Substack</a>
+      <a href="#competencies">Competencies</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ── HERO ── -->
+<section class="hero" id="top" aria-labelledby="hero-heading">
+  <p class="hero-eyebrow">A 24-week investigative curriculum</p>
+  <h1 id="hero-heading">
+    Fieldwork:<br>
+    <em>Accessibility,</em> Disability Justice,<br>
+    and Emergent Learning
+  </h1>
+  <p class="hero-lead">
+    A working curriculum for inclusive learning designers — exploring the synthesis of legal compliance, intersectional ethics, and context-driven pedagogy.
+  </p>
+  <div class="hypothesis-card" role="note" aria-label="Working hypothesis">
+    <p>Sustainable and effective learning systems are only possible when they move beyond mere legal compliance to embody a radical, intersectional framework that facilitates continuous, context-driven adaptation.</p>
+  </div>
+</section>
+
+<!-- ── THREE PILLARS ── -->
+<section class="section" id="hypothesis" aria-labelledby="pillars-heading">
+  <p class="section-label">The framework</p>
+  <h2 class="section-title" id="pillars-heading">Three pillars, <em>one hypothesis</em></h2>
+  <p class="section-intro">Knowledge only travels as far as the systems designed to carry it. The Fieldwork hypothesis integrates three mutually reinforcing pillars.</p>
+
+  <div class="pillars-grid">
+    <div class="pillar-card access">
+      <span class="pillar-tag">Pillar 1</span>
+      <h3>Accessibility</h3>
+      <p>The essential infrastructure. Removes physical, technological, and attitudinal barriers to ensure equitable participation.</p>
+      <ul class="pillar-items" aria-label="Accessibility components">
+        <li>Accessible Canada Act (ACA), AODA, ADA</li>
+        <li>WCAG 2.1 — perceivable, operable, understandable, robust</li>
+        <li>Proactive design over reactive retrofitting</li>
+        <li>Diverse formats: braille, captions, text-to-speech</li>
+      </ul>
+    </div>
+    <div class="pillar-card dj">
+      <span class="pillar-tag">Pillar 2</span>
+      <h3>Disability Justice</h3>
+      <p>The ethical and political compass. Critiques narrow disability rights frameworks and centres intersectional leadership.</p>
+      <ul class="pillar-items" aria-label="Disability Justice components">
+        <li>Intersectionality — race, gender, class, sexuality</li>
+        <li>Leadership of those most impacted</li>
+        <li>Collective access over individual accommodation</li>
+        <li>Interdependence over independence as the goal</li>
+      </ul>
+    </div>
+    <div class="pillar-card el">
+      <span class="pillar-tag">Pillar 3</span>
+      <h3>Emergent Learning</h3>
+      <p>The pedagogical method. Treats learning as a dynamic, relational, and context-driven habit rather than a transfer of information.</p>
+      <ul class="pillar-items" aria-label="Emergent Learning components">
+        <li>Roots in Paulo Freire and critical theory</li>
+        <li>Collaborative inquiry and peer-based adaptation</li>
+        <li>Iterative experimentation and real-time feedback</li>
+        <li>Conditions that facilitate emergence</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── CURRICULUM ── -->
+<section class="section" id="curriculum" aria-labelledby="curriculum-heading">
+  <p class="section-label">24-week structure</p>
+  <h2 class="section-title" id="curriculum-heading">The <em>curriculum</em></h2>
+  <p class="section-intro">Four phases move the designer from consumer of information to practitioner-researcher. Each phase builds on the last.</p>
+
+  <div class="phases-nav" role="tablist" aria-label="Curriculum phases">
+    <button class="phase-btn active" role="tab" aria-selected="true" aria-controls="phase-1" onclick="showPhase(1, this)">Phase 1 — Foundations</button>
+    <button class="phase-btn" role="tab" aria-selected="false" aria-controls="phase-2" onclick="showPhase(2, this)">Phase 2 — Literature</button>
+    <button class="phase-btn" role="tab" aria-selected="false" aria-controls="phase-3" onclick="showPhase(3, this)">Phase 3 — Investigation</button>
+    <button class="phase-btn" role="tab" aria-selected="false" aria-controls="phase-4" onclick="showPhase(4, this)">Phase 4 — Synthesis</button>
+  </div>
+
+  <div id="phase-1" class="phase-panel active" role="tabpanel">
+    <div class="phase-meta">
+      <div>
+        <div class="phase-meta-title">Foundations &amp; thesis discovery</div>
+        <div class="phase-meta-goal">Goal: Align personal interest with the thesis and establish the research problem</div>
+      </div>
+      <div class="phase-meta-weeks">Weeks 1–6</div>
+    </div>
+    <div class="weeks-grid">
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 1</span></div><div class="week-card-title">Personal interest &amp; problem identification</div><div class="week-card-desc">Reflect on personal strengths and identify a high-stakes environment where the gap between policy and practice is evident.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 2</span></div><div class="week-card-title">Deconstructing the hypothesis</div><div class="week-card-desc">Analyze the three pillars: accessibility, disability justice, and emergent learning as interconnected and mutually dependent.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 3</span></div><div class="week-card-title">Preliminary research</div><div class="week-card-desc">Conduct initial scans of the selected environment to understand current systems designed to carry knowledge.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 4</span></div><div class="week-card-title">Developing the research question</div><div class="week-card-desc">Narrow the focus from the broad hypothesis to a specific, researchable question grounded in your environment.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 5</span></div><div class="week-card-title">Evaluating feasibility</div><div class="week-card-desc">Assess available resources, time constraints, and ethical implications for the full 24-week investigation.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 6</span></div><div class="week-card-title">Developing the research proposal</div><div class="week-card-desc">Outline research objectives, methodology, and the significance of the study as a blueprint for the phases ahead.</div></div>
+    </div>
+  </div>
+
+  <div id="phase-2" class="phase-panel" role="tabpanel">
+    <div class="phase-meta">
+      <div>
+        <div class="phase-meta-title">Literature review &amp; theoretical scaffolding</div>
+        <div class="phase-meta-goal">Goal: Situate the inquiry within existing legal, social, and pedagogical frameworks</div>
+      </div>
+      <div class="phase-meta-weeks">Weeks 7–12</div>
+    </div>
+    <div class="weeks-grid">
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 7</span></div><div class="week-card-title">Legal frameworks</div><div class="week-card-desc">Review the Accessible Canada Act, AODA, and ADA to understand the baseline of legal compliance.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 8</span></div><div class="week-card-title">Technical standards — WCAG 2.1</div><div class="week-card-desc">Deep dive into WCAG 2.1 principles: perceivability, operability, understandability, and robustness.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 9</span></div><div class="week-card-title">Disability justice — the compass</div><div class="week-card-desc">Study intersectionality, leadership of those most impacted, and interdependence. Contrast the social model with medical models.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 10</span></div><div class="week-card-title">Emergent learning — the method</div><div class="week-card-desc">Explore the roots of emergent learning in critical theory and Paulo Freire's work, focusing on context-driven adaptation.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 11</span></div><div class="week-card-title">Neuroeducation &amp; brain health</div><div class="week-card-desc">Investigate how active learning, spaced repetition, and emotional engagement impact cognitive function and neuroplasticity.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 12</span></div><div class="week-card-title">Identifying research gaps</div><div class="week-card-desc">Synthesize the literature to find where current inclusive design fails to integrate all three pillars simultaneously.</div></div>
+    </div>
+  </div>
+
+  <div id="phase-3" class="phase-panel" role="tabpanel">
+    <div class="phase-meta">
+      <div>
+        <div class="phase-meta-title">Investigation &amp; methodology</div>
+        <div class="phase-meta-goal">Goal: Conduct field research to gather qualitative and quantitative data</div>
+      </div>
+      <div class="phase-meta-weeks">Weeks 13–18</div>
+    </div>
+    <div class="weeks-grid">
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 13</span></div><div class="week-card-title">Choosing methodology</div><div class="week-card-desc">Select a mixed-methods approach to balance numerical data with rich contextual insights from your environment.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 14</span></div><div class="week-card-title">Stakeholder engagement</div><div class="week-card-desc">Identify and consult diverse stakeholders, including disabled learners and community members, to ensure inclusive consultation.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 15</span></div><div class="week-card-title">Qualitative data collection</div><div class="week-card-desc">Conduct in-depth interviews or focus groups with marginalized learners to understand lived experiences and barriers.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 16</span></div><div class="week-card-title">Quantitative data collection</div><div class="week-card-desc">Deploy surveys to measure broader trends in accessibility and engagement within the target system.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 17</span></div><div class="week-card-title">Ethical oversight</div><div class="week-card-desc">Ensure ongoing informed consent, confidentiality, and anonymity for all participants throughout the research process.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 18</span></div><div class="week-card-title">Collaborative inquiry</div><div class="week-card-desc">Facilitate a peer-based session to share preliminary findings and foster cross-pollination of ideas across contexts.</div></div>
+    </div>
+  </div>
+
+  <div id="phase-4" class="phase-panel" role="tabpanel">
+    <div class="phase-meta">
+      <div>
+        <div class="phase-meta-title">Analysis, design &amp; synthesis</div>
+        <div class="phase-meta-goal">Goal: Translate findings into inclusive learning content and finalize the thesis</div>
+      </div>
+      <div class="phase-meta-weeks">Weeks 19–24</div>
+    </div>
+    <div class="weeks-grid">
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 19</span></div><div class="week-card-title">Data analysis</div><div class="week-card-desc">Use thematic analysis for qualitative data and statistical methods for quantitative data to derive meaningful conclusions.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 20</span></div><div class="week-card-title">Cross-case analysis</div><div class="week-card-desc">Compare findings across different learner groups to reveal broader insights applicable to the system as a whole.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 21</span></div><div class="week-card-title">Backward design for learning content</div><div class="week-card-desc">Start with the end goals — social transformation and resilience — to design the final learning intervention.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 22</span></div><div class="week-card-title">Prototype development</div><div class="week-card-desc">Apply Universal Design for Learning (UDL) and proactive design principles to create the learning content artifact.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 23</span></div><div class="week-card-title">Iteration &amp; feedback</div><div class="week-card-desc">Seek feedback from advisors, peers, and original stakeholders to refine the content toward its final form.</div></div>
+      <div class="week-card"><div class="week-card-header"><span class="week-num-badge">Week 24</span></div><div class="week-card-title">Culmination &amp; dissemination</div><div class="week-card-desc">Finalize the comprehensive body of work — beyond compliance, toward emergent, intersectional learning for others.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SUBSTACK MAP ── -->
+<section class="section" id="substack" aria-labelledby="substack-heading">
+  <p class="section-label">Publication structure</p>
+  <h2 class="section-title" id="substack-heading">48 pieces — <em>the Substack arc</em></h2>
+  <p class="section-intro">Each of the 24 weeks generates two posts. Part 1 grounds the principles with a real-world success case. Part 2 gives readers practical activities to try, share, and reflect on in their own contexts.</p>
+
+  <div class="legend" aria-label="Legend">
+    <div class="legend-item"><div class="legend-bar why" aria-hidden="true"></div>Part 1 — Why, See</div>
+    <div class="legend-item"><div class="legend-bar try" aria-hidden="true"></div>Part 2 — Try, Share, Reflect</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="substack-phase">
+    <div class="substack-phase-header">
+      <span class="phase-pip pip-1">Phase 1</span>
+      <span class="substack-phase-name">Foundations &amp; thesis discovery</span>
+      <span class="substack-phase-count">Weeks 1–6 · 12 pieces</span>
+    </div>
+    <div class="pieces-grid">
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">01</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Why your context is the research site</div><div class="piece-sub">Case: a high-stakes environment that bridged policy &amp; practice</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">02</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Map your strengths to a real gap</div><div class="piece-sub">Identify your high-stakes environment with peers</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">03</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Three pillars, one hypothesis</div><div class="piece-sub">Case: a program that synthesized all three pillars</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">04</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Where do the pillars show up in your work?</div><div class="piece-sub">Group audit of your current environment</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">05</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Systems that carry — and drop — knowledge</div><div class="piece-sub">Case: a knowledge system redesigned from within</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">06</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Scan your environment for structural gaps</div><div class="piece-sub">Share findings with a peer before next week</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">07</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">From broad curiosity to a researchable question</div><div class="piece-sub">Case: collective access in remote adult literacy</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">08</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Draft and pressure-test your question</div><div class="piece-sub">Workshop it with your group, refine together</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">09</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Ethical constraints are design constraints</div><div class="piece-sub">Case: a community-led feasibility process</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">10</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Assess your own constraints honestly</div><div class="piece-sub">Resources, time, ethics — map it with peers</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">11</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">A proposal as a living blueprint</div><div class="piece-sub">Case: a participatory proposal process</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">12</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Write your one-page blueprint</div><div class="piece-sub">Share it for peer feedback this week</div></div>
+    </div>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="substack-phase">
+    <div class="substack-phase-header">
+      <span class="phase-pip pip-2">Phase 2</span>
+      <span class="substack-phase-name">Literature review &amp; scaffolding</span>
+      <span class="substack-phase-count">Weeks 7–12 · 12 pieces</span>
+    </div>
+    <div class="pieces-grid">
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">13</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">What the law requires — and what it misses</div><div class="piece-sub">Case: ACA/AODA/ADA in a real organization</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">14</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Audit your environment against the legal baseline</div><div class="piece-sub">Share gaps with your group, discuss what's missing</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">15</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Perceivable, operable, understandable, robust</div><div class="piece-sub">Case: a digital learning platform redesigned for WCAG</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">16</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Run a WCAG scan on one piece of content you own</div><div class="piece-sub">Compare results with your group</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">17</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">The compass: who leads, who benefits</div><div class="piece-sub">Case: a disability-justice-led design process</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">18</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Who is most impacted in your environment?</div><div class="piece-sub">Map power and voice with your group</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">19</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Learning as a living, relational process</div><div class="piece-sub">Case: Freirean pedagogy adapted for workplace learning</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">20</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Where is learning already emerging in your context?</div><div class="piece-sub">Notice and name it with peers this week</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">21</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">What the brain needs to actually learn</div><div class="piece-sub">Case: active learning redesign in higher education</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">22</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Redesign one session using spaced repetition</div><div class="piece-sub">Try it, then debrief the experience with your group</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">23</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Where current inclusive design falls short</div><div class="piece-sub">Case: a system that had two pillars but not the third</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">24</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Synthesize your literature scan into a gap statement</div><div class="piece-sub">Share and stress-test it with your group</div></div>
+    </div>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="substack-phase">
+    <div class="substack-phase-header">
+      <span class="phase-pip pip-3">Phase 3</span>
+      <span class="substack-phase-name">Investigation &amp; methodology</span>
+      <span class="substack-phase-count">Weeks 13–18 · 12 pieces</span>
+    </div>
+    <div class="pieces-grid">
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">25</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Why mixed methods serve inclusive inquiry</div><div class="piece-sub">Case: a mixed-methods study that changed a policy</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">26</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Choose your method and defend it to a peer</div><div class="piece-sub">What does your question actually need?</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">27</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Consultation that centres lived experience</div><div class="piece-sub">Case: a co-design process led by disabled community members</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">28</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Map your stakeholders — then notice who's missing</div><div class="piece-sub">Share your map and get honest peer feedback</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">29</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Listening as a research practice</div><div class="piece-sub">Case: participatory interviews that changed a curriculum</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">30</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Conduct one informal interview in your context</div><div class="piece-sub">Bring what you heard back to your group</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">31</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">When numbers reveal what stories can't</div><div class="piece-sub">Case: a survey that surfaced a hidden access gap</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">32</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Design a three-question survey for your context</div><div class="piece-sub">Pilot it with your group before deploying</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">33</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Ethics as ongoing practice, not a checkbox</div><div class="piece-sub">Case: a research team that rebuilt consent mid-project</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">34</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Review your consent and confidentiality approach</div><div class="piece-sub">Stress-test it with a peer who'll ask hard questions</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">35</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">What peer inquiry makes visible</div><div class="piece-sub">Case: a collaborative sensemaking session that shifted findings</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">36</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Host a preliminary findings session with your group</div><div class="piece-sub">What surprised you? What shifted?</div></div>
+    </div>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="substack-phase">
+    <div class="substack-phase-header">
+      <span class="phase-pip pip-4">Phase 4</span>
+      <span class="substack-phase-name">Analysis, design &amp; synthesis</span>
+      <span class="substack-phase-count">Weeks 19–24 · 12 pieces</span>
+    </div>
+    <div class="pieces-grid">
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">37</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Making meaning from what you've gathered</div><div class="piece-sub">Case: thematic analysis that reframed an organization's assumptions</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">38</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Code your qualitative data with a peer</div><div class="piece-sub">Compare themes — where do you agree or diverge?</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">39</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">What becomes visible when you compare across contexts</div><div class="piece-sub">Case: cross-site analysis that revealed a shared systemic barrier</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">40</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Compare your findings with another group member's</div><div class="piece-sub">What holds across both contexts?</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">41</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Start with what transformation looks like</div><div class="piece-sub">Case: a backward-designed program that reversed its failure rate</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">42</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Write your end goal first — then work backwards</div><div class="piece-sub">Share your goal statement with your group for alignment</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">43</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Prototyping for access, not polish</div><div class="piece-sub">Case: a UDL prototype tested with disabled learners first</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">44</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Build a rough prototype and get it in front of someone</div><div class="piece-sub">What did you learn from the first real test?</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">45</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Feedback as part of the design, not the end of it</div><div class="piece-sub">Case: a learning system that iterated publicly with its community</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">46</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Run a structured feedback session on your prototype</div><div class="piece-sub">Document what changes — and what holds</div></div>
+      <div class="piece-card why"><div class="piece-meta"><span class="piece-index">47</span><span class="piece-type-tag why">Why, See</span></div><div class="piece-title">Beyond compliance — what a truly inclusive system looks like</div><div class="piece-sub">Case: a body of work that became a living resource for others</div></div>
+      <div class="piece-card try"><div class="piece-meta"><span class="piece-index">48</span><span class="piece-type-tag try">Try, Share, Reflect</span></div><div class="piece-title">Share your final work — and what it changed in you</div><div class="piece-sub">Celebrate with your group. What comes next?</div></div>
+    </div>
+  </div>
+
+  <div class="stats-row" aria-label="Summary statistics">
+    <div class="stat-card"><div class="stat-num">48</div><div class="stat-label">Total Substack pieces</div></div>
+    <div class="stat-card"><div class="stat-num">24</div><div class="stat-label">Real-world cases</div></div>
+    <div class="stat-card"><div class="stat-num">24</div><div class="stat-label">Practice activities</div></div>
+    <div class="stat-card"><div class="stat-num">10</div><div class="stat-label">Core competencies</div></div>
+  </div>
+</section>
+
+<!-- ── COMPETENCIES ── -->
+<section class="section" id="competencies" aria-labelledby="comp-heading">
+  <p class="section-label">Designer development</p>
+  <h2 class="section-title" id="comp-heading">Ten core <em>competencies</em></h2>
+  <p class="section-intro">The competencies an inclusive learning designer develops across the 24-week arc — mapped to the three pillars of the Fieldwork hypothesis.</p>
+
+  <div class="competencies-grid">
+    <div class="comp-card">
+      <div class="comp-number">01</div>
+      <div class="comp-name">Methodological inquiry &amp; research formulation</div>
+      <span class="comp-pillar-tag method">Research</span>
+      <p class="comp-desc">Narrowing broad interests into specific, researchable questions. Selecting qualitative, quantitative, or mixed-methods approaches that align with the question.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">02</div>
+      <div class="comp-name">Technical compliance &amp; standards application</div>
+      <span class="comp-pillar-tag access">Accessibility</span>
+      <p class="comp-desc">Implementing WCAG 2.1 alongside federal and provincial legislation (ACA, AODA) to ensure the legal and technical infrastructure is met.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">03</div>
+      <div class="comp-name">Proactive &amp; universal design</div>
+      <span class="comp-pillar-tag access">Accessibility</span>
+      <p class="comp-desc">Moving beyond reactive retrofitting to integrate accessibility from the outset using UDL — multiple means of representation, action &amp; expression, and engagement.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">04</div>
+      <div class="comp-name">Intersectional analysis</div>
+      <span class="comp-pillar-tag dj">Disability justice</span>
+      <p class="comp-desc">Recognizing that learners experience overlapping forms of oppression. Applying an intersectional lens and centring the leadership of those most impacted by systemic injustices.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">05</div>
+      <div class="comp-name">Collaborative stakeholder engagement</div>
+      <span class="comp-pillar-tag dj">Disability justice</span>
+      <p class="comp-desc">Actively involving diverse stakeholders — students, faculty, community members — to ensure materials are relevant and reflective of lived experience.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">06</div>
+      <div class="comp-name">Facilitating emergent adaptation</div>
+      <span class="comp-pillar-tag el">Emergent learning</span>
+      <p class="comp-desc">Treating learning as a dynamic, relational, context-driven process. Fostering conditions where iterative experimentation allows the system to respond to real-world challenges.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">07</div>
+      <div class="comp-name">Neuroeducational literacy</div>
+      <span class="comp-pillar-tag el">Emergent learning</span>
+      <p class="comp-desc">Understanding neuroplasticity to create environments that stimulate neural growth. Embedding active learning, spaced repetition, and emotional engagement into curriculum design.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">08</div>
+      <div class="comp-name">Iterative reflective practice</div>
+      <span class="comp-pillar-tag method">Research</span>
+      <p class="comp-desc">Engaging in both reflection-on-action (after events) and reflection-in-action (during activities). Continuous revision through peer reviews and advisor feedback cycles.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">09</div>
+      <div class="comp-name">Backward curriculum design</div>
+      <span class="comp-pillar-tag el">Emergent learning</span>
+      <p class="comp-desc">Starting with desired outcomes and working backward to define evidence of mastery and instructional activities. Every curriculum component directly aligned with the final objectives.</p>
+    </div>
+    <div class="comp-card">
+      <div class="comp-number">10</div>
+      <div class="comp-name">Cultivating collective access &amp; interdependence</div>
+      <span class="comp-pillar-tag dj">Disability justice</span>
+      <p class="comp-desc">Valuing interdependence — community support and mutual aid — over independence as the sole goal. Designing for collective access so learner needs are integrated, not treated as exceptions.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <p>Fieldwork: Accessibility, Disability Justice, and Emergent Learning &mdash; Accessible Learning Labs</p>
+    <p style="margin-top: 6px;">A personal reference and editorial planning site for a 24-week Substack curriculum.</p>
+  </div>
+</footer>
+
+<script>
+function showPhase(n, btn) {
+  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.phase-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  document.getElementById('phase-' + n).classList.add('active');
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+}
+</script>
+
+</body>
+</html>
